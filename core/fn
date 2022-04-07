@@ -103,7 +103,7 @@ gvm::install() {
   # download
   wget -c $go_tar_gz_url -O $PLUGIN_GVM_GO_DOWNLOAD_TMP
   # clean old
-  if [ ! -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
+  if [ -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
     sudo rm -rf $PLUGIN_GVM_VERSIONS/$version
   fi
   # decompress
