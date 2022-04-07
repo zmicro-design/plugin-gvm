@@ -128,7 +128,7 @@ gvm::use() {
     # exit 1
     gvm::install $version
     gvm::use $version
-    exit 0
+    return
   fi
 
   if [ -d $PLUGIN_GVM_GO_HOME ]; then
