@@ -53,6 +53,9 @@ gvm::install() {
     exit 1
   fi
 
+  # @TODO force sudo
+  sudo ls >> /dev/null 2>&1
+
   # fix version: v1.15.7 => 1.15.7
   local source_version=${version#v}
 
@@ -130,6 +133,9 @@ gvm::use() {
     gvm::use $version
     return
   fi
+
+  # @TODO force sudo
+  sudo ls >> /dev/null 2>&1
 
   if [ -d $PLUGIN_GVM_GO_HOME ]; then
     # if not a link
