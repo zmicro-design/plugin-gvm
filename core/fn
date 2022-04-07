@@ -1,0 +1,178 @@
+#!/bin/bash
+
+gvm::current() {
+  if [ ! -f "${PLUGIN_GVM_VERSION_CURRENT}" ]; then
+    echo ""
+    return
+  fi
+
+  echo $(cat $PLUGIN_GVM_VERSION_CURRENT)
+}
+
+gvm::env() {
+  export PATH=$PLUGIN_GVM_GO_BIN:$PATH
+  go env -w GO111MODULE=on
+  go env -w GOPROXY=https://goproxy.cn,direct
+  go env -w GOPATH=$PLUGIN_GVM_GO_PATH
+  # go env -w GOBIN=$GOBIN
+
+  # Write to SHELL
+  if [ -f $HOME/.bashrc ]; then
+    cat $HOME/.bashrc | grep GOBIN >> /dev/null 2>&1
+    if [ "$?" != "0" ]; then
+      cat << EOF >> $HOME/.bashrc
+
+# GOBIN
+export GOBIN=${PLUGIN_GVM_GO_BIN}
+export GOPATH=${PLUGIN_GVM_GO_PATH}
+export PATH=\$GOBIN:\$GOPATH/bin:\$PATH
+EOF
+    fi
+  fi
+
+  if [ -f $HOME/.zshrc ]; then
+    cat $HOME/.zshrc | grep GOBIN >> /dev/null 2>&1
+    if [ "$?" != "0" ]; then
+      cat << EOF >> $HOME/.zshrc
+
+# GOBIN
+export GOBIN=${PLUGIN_GVM_GO_BIN}
+export GOPATH=${PLUGIN_GVM_GO_PATH}
+export PATH=\$GOBIN:\$GOPATH/bin:\$PATH
+EOF
+    fi
+  fi
+}
+
+# gvm::install install go version
+gvm::install() {
+  local version=$1
+
+  if [ -z "$version" ]; then
+    log::error "[gvm::install] version is required"
+    exit 1
+  fi
+
+  # fix version: v1.15.7 => 1.15.7
+  local source_version=${version#v}
+
+  local os=linux
+  local arch=amd64
+
+  uname -a | grep "Darwin" >> /dev/null 2>&1
+  if [ $? == 0 ]; then
+    os=darwin
+  fi
+
+  which wget >> /dev/null 2>&1
+  if [ "$?" != "0" ]; then
+    pm install wget
+  fi
+
+  which curl >> /dev/null 2>&1
+  if [ "$?" != "0" ]; then
+    pm install curl
+  fi
+
+  local filename=go${source_version}.${os}-${arch}.tar.gz
+  local go_tar_gz_url=${PLUGIN_GVM_GO_SOURCE_GOOGLE}/$filename
+  if [ "$(net::is_google_visitable)" = "false" ]; then
+    go_tar_gz_url=${PLUGIN_GVM_GO_SOURCE_QINIU}/$filename
+  fi
+
+  # force cn mirror
+  if [ -n "${FORCE_CN}" ]; then
+    go_tar_gz_url=${PLUGIN_GVM_GO_SOURCE_QINIU}/$filename
+  fi
+
+  # custom source
+  if [ -n "${GO_SOURCE}" ]; then
+    go_tar_gz_url=${GO_SOURCE}/$filename
+  fi
+
+  curl -I $go_tar_gz_url 2>/dev/null | head -n 1 | grep "404" >> /dev/null 2>&1
+  if [ "$?" = "0" ]; then
+    log::error "[gvm::install] invalid version: $version"
+    log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
+    exit 1
+  fi
+
+  # download
+  wget -c $go_tar_gz_url -O $PLUGIN_GVM_GO_DOWNLOAD_TMP
+  # decompress
+  sudo tar -C $PLUGIN_GVM_VERSIONS -xzf $PLUGIN_GVM_GO_DOWNLOAD_TMP
+  # rename
+  if [ ! -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
+    sudo mv $PLUGIN_GVM_VERSIONS/go $PLUGIN_GVM_VERSIONS/$version
+  fi
+
+  # clean
+  sudo rm -f $PLUGIN_GVM_GO_DOWNLOAD_TMP
+
+  # if no current, set current
+  if [ "$(gvm::current)" == "" ]; then
+    gvm::use $version
+  fi
+}
+
+gvm::use() {
+  local version=$1
+
+  if [ -z "$version" ]; then
+    log::error "[gvm::use] version is required"
+    exit 1
+  fi
+
+  if [ ! -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
+    # log::error "[gvm::use] version $version not found"
+    # exit 1
+    gvm::install $version
+    gvm::use $version
+    exit 0
+  fi
+
+  if [ -d $PLUGIN_GVM_GO_HOME ]; then
+    # if not a link
+    file $PLUGIN_GVM_GO_HOME | grep symbolic >> /dev/null 2>&1
+    if [ "$?" != "0" ]; then
+      sudo rm -rf $PLUGIN_GVM_GO_HOME
+    else
+      sudo rm -f $PLUGIN_GVM_GO_HOME
+    fi
+  fi
+  
+  sudo ln -sf $PLUGIN_GVM_VERSIONS/$version $PLUGIN_GVM_GO_HOME
+  echo $version > $PLUGIN_GVM_VERSION_CURRENT
+
+  # apply env
+  gvm::env
+}
+
+gvm::remove() {
+  local version=$1
+
+  if [ -z "$version" ]; then
+    log::error "[gvm::use] version is required"
+    exit 1
+  fi
+
+  if [ ! -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
+    log::error "[gvm::use] version $version not found"
+    exit 1
+  fi
+
+  sudo rm -rf $PLUGIN_GVM_VERSIONS/$version
+}
+
+gvm::list() {
+  ls $PLUGIN_GVM_VERSIONS
+}
+
+export -f gvm::current
+export -f gvm::env
+
+export -f gvm::install
+export -f gvm::remove
+
+export -f gvm::list
+export -f gvm::use

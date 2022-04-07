@@ -1,0 +1,25 @@
+#!/bin/bash
+
+load inquirer
+
+help() {
+  echo "Usage:"
+  echo "  zgvm use"
+}
+
+core() {
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    help
+    exit 0
+  fi
+
+  local current=$(gvm::current)
+
+  echo "$current ($(go version))"
+}
+
+run() {
+  core $@
+}
+
+run $@

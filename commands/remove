@@ -1,0 +1,32 @@
+#!/bin/bash
+
+load inquirer
+
+help() {
+  echo "Usage:"
+  echo "  zgvm remove"
+}
+
+core() {
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    help
+    exit 0
+  fi
+
+  local name=$1
+
+  if [ -z "$name" ]; then
+    local availables=($(gvm::list))
+    inquirer::select "Select ?" availables name
+  fi
+
+  gvm::remove $name
+
+  log::success "remove ${name} success"
+}
+
+run() {
+  core $@
+}
+
+run $@

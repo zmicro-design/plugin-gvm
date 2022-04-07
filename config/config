@@ -1,0 +1,25 @@
+export PLUGIN_GVM_NAME=gvm
+
+export PLUGIN_GVM_DATA=$(plugin::get_app_data_path $PLUGIN_GVM_NAME)
+export PLUGIN_GVM_LOGS=$(plugin::get_app_logs_path $PLUGIN_GVM_NAME)
+export PLUGIN_GVM_CONFIG=$(plugin::get_app_configs_path $PLUGIN_GVM_NAME)/config
+
+export PLUGIN_GVM_VERSIONS=${PLUGIN_GVM_DATA}/versions
+export PLUGIN_GVM_VERSION_CURRENT=${PLUGIN_GVM_DATA}/current
+
+export PLUGIN_GVM_GO_DEFAULT_VERSION=1.17.6
+export PLUGIN_GVM_GO_HOME=/usr/local/go
+export PLUGIN_GVM_GO_BIN=$PLUGIN_GVM_GO_HOME/bin
+export PLUGIN_GVM_GO_PATH=$HOME/.go
+export PLUGIN_GVM_GO_DOWNLOAD_TMP=/tmp/go.tar.gz
+export PLUGIN_GVM_GO_SOURCE_GOOGLE=https://golang.google.cn/dl
+export PLUGIN_GVM_GO_SOURCE_QINIU=https://gomirrors.org/dl/go
+
+if [ ! -d "$PLUGIN_GVM_VERSIONS" ]; then
+  mkdir -p $PLUGIN_GVM_VERSIONS
+fi
+
+if [ ! -f "$PLUGIN_GVM_VERSION_CURRENT" ]; then
+  touch $PLUGIN_GVM_VERSION_CURRENT
+fi
+
