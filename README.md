@@ -1,4 +1,4 @@
-# Retry - Catch Panic In Retries
+# GVM - Go Version Manager Plugin for [ZMicro](https://github.com/zcorky/zmicro)
 
 [![Release](https://img.shields.io/github/tag/zmicro-design/plugin-gvm.svg?label=Release)](https://github.com/zmicro-design/plugin-gvm/tags)
 [![Build Status](https://github.com/zmicro-design/plugin-gvm/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/zmicro-design/plugin-gvm/actions/workflows/ci.yml)
