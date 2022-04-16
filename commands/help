@@ -1,0 +1,47 @@
+#!/bin/bash
+
+name() {
+  local version=$(plugin::get_version $PLUGIN_GVM_NAME)
+  echo "Go Version Manager ($(color::success $version))"
+}
+
+description() {
+  echo "Go Version Manager is a tool for managing multiple Go versions."
+}
+
+usage() {
+  echo "Usage:"
+  echo "  zgvm install <version>   - Install Go version"
+  echo "  zgvm use <version>       - Use Go version"
+  echo "  zgvm remove <version>    - Remove Go version"
+  echo "  zgvm ls                  - List all Go versions"
+  echo "  zgvm ls-remote           - Show current Go version"
+  echo "  zgvm current             - Show current Go version"
+  echo "  zgvm help                - Show help"
+}
+
+example() {
+  echo "Example:"
+  echo "  zgvm install 1.17.6"
+  echo "  zgvm use 1.17.6"
+  echo "  zgvm remove 1.17.6"
+  echo "  zgvm ls"
+  echo "  zgvm ls-remote"
+  echo "  zgvm current"
+}
+
+core() {
+  name
+  echo ""
+  description
+  echo ""
+  usage
+  echo ""
+  example
+}
+
+run() {
+  core $@
+}
+
+run $@
