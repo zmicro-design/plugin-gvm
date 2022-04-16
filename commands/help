@@ -14,8 +14,8 @@ usage() {
   echo "  zgvm install <version>   - Install Go version"
   echo "  zgvm use <version>       - Use Go version"
   echo "  zgvm remove <version>    - Remove Go version"
-  echo "  zgvm ls                  - List all Go versions"
-  echo "  zgvm ls-remote           - Show current Go version"
+  echo "  zgvm ls                  - List the Go versions installed"
+  echo "  zgvm ls-remote           - List all Go versions from remote"
   echo "  zgvm current             - Show current Go version"
   echo "  zgvm help                - Show help"
 }
