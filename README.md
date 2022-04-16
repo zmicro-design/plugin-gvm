@@ -11,6 +11,16 @@ To install the package, run:
 zmicro plugin install gvm
 ```
 
+### If you donot install [ZMicro](https://github.com/zcorky/zmicro):
+
+```bash
+# CURL
+curl -o- https://raw.githubusercontent.com/zcorky/zmicro/master/install | bash
+
+# WGET
+wget -qO- https://raw.githubusercontent.com/zcorky/zmicro/master/install | bash
+```
+
 ## Usage
 
 ```markdown
