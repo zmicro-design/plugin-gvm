@@ -2,7 +2,10 @@
 
 help() {
   echo "Usage:"
-  echo "  zgvm install <version>"
+  echo "  zgvm install [version]"
+  echo ""
+  echo "Options:"
+  echo "  version    - Install Go version, default: $PLUGIN_GVM_GO_DEFAULT_VERSION"
 }
 
 core() {
@@ -12,9 +15,12 @@ core() {
   fi
 
   local version=$1
+  if [ -z "$version" ]; then
+    version=$PLUGIN_GVM_GO_DEFAULT_VERSION
+  fi
 
-  gvm::install $@
-
+  log::info "installing $version"
+  gvm::install $version
   log::success "install ${name} success"
 }
 
