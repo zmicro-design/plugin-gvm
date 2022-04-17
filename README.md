@@ -38,9 +38,9 @@ Usage:
   zgvm help                - Show help
 
 Example:
-  zgvm install 1.17.6
-  zgvm use 1.17.6
-  zgvm remove 1.17.6
+  zgvm install v1.18
+  zgvm use 1.18
+  zgvm remove 1.18
   zgvm ls
   zgvm ls-remote
   zgvm current

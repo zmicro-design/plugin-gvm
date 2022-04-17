@@ -23,9 +23,9 @@ usage() {
 
 example() {
   echo "Example:"
-  echo "  zgvm install 1.17.6"
-  echo "  zgvm use 1.17.6"
-  echo "  zgvm remove 1.17.6"
+  echo "  zgvm install $PLUGIN_GVM_GO_DEFAULT_VERSION"
+  echo "  zgvm use $PLUGIN_GVM_GO_DEFAULT_VERSION"
+  echo "  zgvm remove $PLUGIN_GVM_GO_DEFAULT_VERSION"
   echo "  zgvm ls"
   echo "  zgvm ls-remote"
   echo "  zgvm current"
