@@ -11,7 +11,7 @@ core() {
     exit 0
   fi
 
-  echo $PLUGIN_GVM_NODE_BIN
+  echo $PLUGIN_GVM_GO_BIN
 }
 
 run() {
