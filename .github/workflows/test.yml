@@ -70,4 +70,4 @@ jobs:
       - name: Show Go Version
         run: |
           export PATH=$(zmicro gvm bin):$PATH
-          go --version
+          go version
