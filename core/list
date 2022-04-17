@@ -1,0 +1,7 @@
+#!/bin/bash
+
+gvm::list() {
+  ls $PLUGIN_GVM_VERSIONS
+}
+
+export -f gvm::list

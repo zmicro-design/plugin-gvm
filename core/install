@@ -1,0 +1,118 @@
+#!/bin/bash
+
+# gvm::install install go version
+gvm::install() {
+  vm::ensure
+  
+  # 1. get version (vm::version_parse only use in install)
+  local version=$(vm::version_parse $1)
+  # 2. get download url
+  local url=$(gvm::internal_install_get_download_url $version)
+  # 3. download
+  gvm::internal_install_download $version $url
+  # 4. apply local
+  gvm::internal_install_apply_local $version
+
+  # if no current, set current
+  if [ "$(gvm::current)" == "" ]; then
+    gvm::use $version
+  fi
+}
+
+# gvm::internal_install_get_download_url get download url
+gvm::internal_install_get_download_url() {
+  local version=$1
+  local os=$(vm::os)
+  local arch=$(vm::arch)
+
+  local filename=go${version}.${os}-${arch}.tar.gz
+  local tar_gz_url=${PLUGIN_GVM_GO_SOURCE_GOOGLE}/$filename
+  if [ "$(net::is_google_visitable)" = "false" ]; then
+    tar_gz_url=${PLUGIN_GVM_GO_SOURCE_QINIU}/$filename
+  fi
+
+  # force cn mirror
+  if [ -n "${FORCE_CN}" ]; then
+    tar_gz_url=${PLUGIN_GVM_GO_SOURCE_QINIU}/$filename
+  fi
+
+  # custom source
+  if [ -n "${GO_SOURCE}" ]; then
+    tar_gz_url=${GO_SOURCE}/$filename
+  fi
+
+  echo $tar_gz_url
+}
+
+gvm::internal_install_download() {
+  local version=$1
+  local tar_gz_url=$2
+  if [ -z "$version" ]; then
+    log::error "[gvm::internal_install_download] version is required"
+    exit 1
+  fi
+
+  if [ -z "$tar_gz_url" ]; then
+    log::error "[gvm::internal_install_download] tar_gz_url is required"
+    exit 1
+  fi
+
+  # 302 redirect
+  curl -I $tar_gz_url 2>/dev/null | head -n 1 | grep "302" >> /dev/null 2>&1
+  if [ "$?" = "0" ]; then
+    local location=$(curl -I $tar_gz_url 2>/dev/null | grep location | awk '{print $2}')
+
+    # fix location
+    # stackoverflow: https://stackoverflow.com/questions/70660633/curl-3-url-using-bad-illegal-format-or-missing-url-in-bash-windows
+    location=$(echo $location | sed 's/\r//g')
+
+    # 404
+    curl -I $location 2>/dev/null | head -n 1 | grep "404" >> /dev/null 2>&1
+    if [ "$?" = "0" ]; then
+      log::error "[gvm::install] invalid version: $version"
+      log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
+      exit 1
+    fi
+  else
+    # 404
+    curl -I $tar_gz_url 2>/dev/null | head -n 1 | grep "404" >> /dev/null 2>&1
+    if [ "$?" = "0" ]; then
+      log::error "[gvm::install] invalid version: $version"
+      log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
+      exit 1
+    fi
+  fi
+
+  # download
+  wget -c $tar_gz_url -O $PLUGIN_GVM_GO_DOWNLOAD_TMP
+}
+
+gvm::internal_install_apply_local() {
+  local version=$1
+  if [ -z "$version" ]; then
+    log::error "[gvm::internal_install_apply_local] version is required"
+    exit 1
+  fi
+
+  # add prefix v*
+  version=$(vm::version_ensure_prefix_v $version)
+
+  # clean old
+  if [ -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
+    sudo rm -rf $PLUGIN_GVM_VERSIONS/$version
+  fi
+  # decompress
+  sudo tar -C $PLUGIN_GVM_VERSIONS -xzf $PLUGIN_GVM_GO_DOWNLOAD_TMP
+  # rename
+  sudo mv $PLUGIN_GVM_VERSIONS/go $PLUGIN_GVM_VERSIONS/$version
+
+  # clean
+  sudo rm -f $PLUGIN_GVM_GO_DOWNLOAD_TMP
+}
+
+export -f gvm::install
+
+# install internal processes
+export -f gvm::internal_install_get_download_url
+export -f gvm::internal_install_download
+export -f gvm::internal_install_apply_local

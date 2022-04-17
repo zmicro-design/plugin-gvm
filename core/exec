@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# gvm::exec enters a new shell with go
+gvm::exec() {
+  which go >> /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    log::error "[gvm::exec] found go, you should use 'zgvm use' instead of 'zgvm exec'"
+    exit 1
+  fi
+
+  local go_bin_path=$PLUGIN_GVM_GO_BIN
+  local version=$1
+  if [ -n "$version" ]; then
+    version=$(vm::version_ensure_prefix_v $version)
+    go_bin_path=$PLUGIN_GVM_VERSIONS/$version/bin
+  fi
+
+  export PATH=$go_bin_path:$PATH
+  go env -w GO111MODULE=on
+  go env -w GOPROXY=https://goproxy.cn,direct
+  go env -w GOPATH=$PLUGIN_GVM_GO_PATH
+
+  exec $SHELL
+}
+
+export -f gvm::exec

@@ -13,16 +13,28 @@ core() {
     exit 0
   fi
 
-  local name=$1
+  local version=$1
 
-  if [ -z "$name" ]; then
+  if [ -z "$version" ]; then
     local availables=($(gvm::list))
-    inquirer::select "Select ?" availables name
+    inquirer::select "Select ?" availables version
   fi
 
-  gvm::remove $name
+  if [ "$(gvm::current)" = "$version" ]; then
+    local yesno=(No yes)
+    inquirer::select "Select ?" yesno confirm
+    if [ "$confirm" = "No" ]; then
+      exit 0
+    fi
+  fi
 
-  log::success "remove ${name} success"
+  gvm::remove $version
+
+  log::success "remove ${version} success"
+
+  if [ -n "$(gvm::current)" ]; then
+    echo "current: $(gvm::current) ($(go version))"
+  fi
 }
 
 run() {

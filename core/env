@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# gvm::env applys the env for go
+gvm::env() {
+  echo $PATH | grep $PLUGIN_GVM_GO_BIN >> /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    export PATH=$PATH:$PLUGIN_GVM_GO_BIN
+  fi
+
+  go env -w GO111MODULE=on
+  go env -w GOPROXY=https://goproxy.cn,direct
+  go env -w GOPATH=$PLUGIN_GVM_GO_PATH
+
+  # Donot set GOBIN, which may cause go install permission into $GOBIN
+  # go env -w GOBIN=$GOBIN
+
+  # Write to SHELL
+  if [ -f $HOME/.bashrc ]; then
+    cat $HOME/.bashrc | grep GOBIN >> /dev/null 2>&1
+    if [ "$?" != "0" ]; then
+      cat << EOF >> $HOME/.bashrc
+
+# GOBIN
+export GOHOME=${PLUGIN_GVM_GO_HOME}
+export GOPATH=${PLUGIN_GVM_GO_PATH}
+export PATH=\$GOHOME/bin:\$GOPATH/bin:\$PATH
+EOF
+    fi
+  fi
+
+  if [ -f $HOME/.zshrc ]; then
+    cat $HOME/.zshrc | grep GOBIN >> /dev/null 2>&1
+    if [ "$?" != "0" ]; then
+      cat << EOF >> $HOME/.zshrc
+
+# GOBIN
+export GOHOME=${PLUGIN_GVM_GO_HOME}
+export GOPATH=${PLUGIN_GVM_GO_PATH}
+export PATH=\$GOHOME/bin:\$GOPATH/bin:\$PATH
+EOF
+    fi
+  fi
+}
+
+export -f gvm::env

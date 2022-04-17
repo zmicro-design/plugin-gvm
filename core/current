@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# gvm::current gets the current version of Go
+gvm::current() {
+  if [ ! -f "${PLUGIN_GVM_VERSION_CURRENT}" ]; then
+    echo ""
+    return
+  fi
+
+  echo $(cat $PLUGIN_GVM_VERSION_CURRENT)
+}
+
+export -f gvm::current
