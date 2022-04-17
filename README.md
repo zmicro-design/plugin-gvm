@@ -15,10 +15,10 @@ zmicro plugin install gvm
 
 ```bash
 # CURL
-curl -o- https://raw.githubusercontent.com/zcorky/zmicro/master/install | bash
+curl -o- https://raw.githubusercontent.com/zmicro-design/plugin-gvm/master/install | bash
 
 # WGET
-wget -qO- https://raw.githubusercontent.com/zcorky/zmicro/master/install | bash
+wget -qO- https://raw.githubusercontent.com/zmicro-design/plugin-gvm/master/install | bash
 ```
 
 ## Usage
@@ -39,8 +39,8 @@ Usage:
 
 Example:
   zgvm install v1.18
-  zgvm use 1.18
-  zgvm remove 1.18
+  zgvm use v1.18
+  zgvm remove v1.18
   zgvm ls
   zgvm ls-remote
   zgvm current
