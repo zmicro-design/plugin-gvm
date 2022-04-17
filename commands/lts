@@ -15,7 +15,7 @@ core() {
 
   log::info "Use LTS Version $PLIGIN_GVM_GO_LTS_VERSION"
 
-  zgvm use $PLIGIN_GVM_GO_LTS_VERSION
+  gvm::use $PLIGIN_GVM_GO_LTS_VERSION
 }
 
 run() {

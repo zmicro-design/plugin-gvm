@@ -64,8 +64,8 @@ jobs:
       - name: Install GVM
         run: ./install
 
-      - name: Install Go
-        run: zmicro gvm install
+      - name: Install Go (Stable/LTS)
+        run: zmicro gvm lts
 
       - name: Show Go Version
         run: |
