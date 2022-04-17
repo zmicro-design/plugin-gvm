@@ -17,6 +17,7 @@ usage() {
   echo "  zgvm ls                  - List the Go versions installed"
   echo "  zgvm ls-remote           - List all Go versions from remote"
   echo "  zgvm current             - Show current Go version"
+  echo "  zgvm exec                - Enter new shell with go version for tmp"
   echo "  zgvm help                - Show help"
 }
 
