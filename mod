@@ -1,3 +1,3 @@
 PLUGIN_NAME=gvm
 PLUGIN_DESCRIPTION="go version manager plugin"
-PLUGIN_VERSION=v1.1.4
+PLUGIN_VERSION=v1.1.5
