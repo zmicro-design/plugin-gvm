@@ -16,6 +16,9 @@ gvm::install() {
   # if no current, set current
   if [ "$(gvm::current)" == "" ]; then
     gvm::use $version
+  else
+    # @TODO fix env apply
+    gvm::env
   fi
 }
 
