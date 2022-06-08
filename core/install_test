@@ -2,9 +2,12 @@
 
 function test_gvm::install() {
   # @TODO load dependencies
-  config::load_file $PWD/config/config
-  config::load_file $PWD/core/core
-  config::load_file $PWD/core/env
+  # config::load_file $PWD/config/config
+  # config::load_file $PWD/core/core
+  # config::load_file $PWD/core/env
+
+  config::load_dir $PWD/config
+  config::load_dir $PWD/core
 
   gvm::install $PLUGIN_GVM_GO_DEFAULT_VERSION
 
