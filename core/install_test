@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function test_gvm::install() {
+  # @TODO load dependencies
+  config::load_file $PWD/config/config
+  config::load_file $PWD/core/core
+  config::load_file $PWD/core/env
+
+  gvm::install $PLUGIN_GVM_GO_DEFAULT_VERSION
+
+  local expected="$HOME/.go"
+  # local received=$(go env get GOPATH)
+  local received=$(go env | grep GOPATH | awk -F '"' '{print $2}')
+
+  testing::expect \
+    "${FUNCNAME[0]} GOPATH" \
+    "to_equal" \
+    "$expected" \
+    "$received" 
+}

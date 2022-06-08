@@ -4,8 +4,17 @@
 gvm::install() {
   vm::ensure
   
+  # @TODO
   # 1. get version (vm::version_parse only use in install)
   local version=$(vm::version_parse $1)
+
+  if [ "$(gvm::has v${version})" = "true" ]; then
+    # @TODO fix env apply
+    gvm::env
+    # exit 0
+    return
+  fi
+
   # 2. get download url
   local url=$(gvm::internal_install_get_download_url $version)
   # 3. download
