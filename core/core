@@ -21,6 +21,11 @@ vm::arch() {
     arch=arm64
   fi
 
+  uname -m | grep "aarch" >> /dev/null 2>&1
+    if [ $? == 0 ]; then
+    arch=arm64
+  fi
+
   echo $arch
 }
 
