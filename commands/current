@@ -1,7 +1,5 @@
 #!/bin/bash
 
-load inquirer
-
 help() {
   echo "Usage:"
   echo "  zgvm use"
@@ -14,6 +12,10 @@ core() {
   fi
 
   local current=$(gvm::current)
+
+  export GOHOME=${PLUGIN_GVM_GO_HOME}
+  export GOPATH=${PLUGIN_GVM_GO_PATH}
+  export PATH=$GOHOME/bin:$GOPATH/bin:$PATH
 
   echo "$current ($(go version))"
 }

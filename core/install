@@ -9,6 +9,9 @@ gvm::install() {
   local version=$(vm::version_parse $1)
 
   if [ "$(gvm::has v${version})" = "true" ]; then
+    # use version
+    gvm::use v${version}
+
     # @TODO fix env apply
     gvm::env
     # exit 0
