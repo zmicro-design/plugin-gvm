@@ -32,7 +32,12 @@ gvm::use() {
     fi
   fi
 
+  if [ ! -d "/usr/local/bin" ]; then
+    sudo mkdir -p /usr/local/bin
+  fi
+
   sudo ln -sf $PLUGIN_GVM_VERSIONS/$version $PLUGIN_GVM_GO_HOME
+  sudo ln -sf $PLUGIN_GVM_GO_HOME/bin/go /usr/local/bin/go
   echo $version >$PLUGIN_GVM_VERSION_CURRENT
 
   # apply env
