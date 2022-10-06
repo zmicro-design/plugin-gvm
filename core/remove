@@ -6,7 +6,7 @@ gvm::remove() {
   local version=$1
   if [ -z "$version" ]; then
     log::error "[gvm::use] version is required"
-    exit 1
+    return 1
   fi
 
   # smart detect
@@ -14,7 +14,7 @@ gvm::remove() {
 
   if [ ! -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
     log::error "[gvm::use] version $version not found"
-    exit 1
+    return 1
   fi
 
   sudo rm -rf $PLUGIN_GVM_VERSIONS/$version
@@ -24,7 +24,7 @@ gvm::remove() {
     if [ -n "$new_version" ]; then
       gvm::use $new_version
     else
-      echo "" > $PLUGIN_GVM_VERSION_CURRENT
+      echo "" >$PLUGIN_GVM_VERSION_CURRENT
     fi
   fi
 }

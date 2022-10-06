@@ -3,7 +3,7 @@
 # gvm::install install go version
 gvm::install() {
   vm::ensure
-  
+
   # @TODO
   # 1. get version (vm::version_parse only use in install)
   local version=$(vm::version_parse $1)
@@ -22,8 +22,17 @@ gvm::install() {
   local url=$(gvm::internal_install_get_download_url $version)
   # 3. download
   gvm::internal_install_download $version $url
+  if [ "$?" != "0" ]; then
+    log::error "[gvm::install] failed to install (version: $version, url: $url)"
+    return 1
+  fi
+
   # 4. apply local
   gvm::internal_install_apply_local $version
+  if [ "$?" != "0" ]; then
+    log::error "[gvm::install] failed to apply env(version: $version, url: $url)"
+    return 1
+  fi
 
   # if no current, set current
   if [ "$(gvm::current)" == "" ]; then
@@ -64,16 +73,16 @@ gvm::internal_install_download() {
   local tar_gz_url=$2
   if [ -z "$version" ]; then
     log::error "[gvm::internal_install_download] version is required"
-    exit 1
+    return 1
   fi
 
   if [ -z "$tar_gz_url" ]; then
     log::error "[gvm::internal_install_download] tar_gz_url is required"
-    exit 1
+    return 1
   fi
 
   # 302 redirect
-  curl -I $tar_gz_url 2>/dev/null | head -n 1 | grep "302" >> /dev/null 2>&1
+  curl -I $tar_gz_url 2>/dev/null | head -n 1 | grep "302" >>/dev/null 2>&1
   if [ "$?" = "0" ]; then
     local location=$(curl -I $tar_gz_url 2>/dev/null | grep location | awk '{print $2}')
 
@@ -82,19 +91,19 @@ gvm::internal_install_download() {
     location=$(echo $location | sed 's/\r//g')
 
     # 404
-    curl -I $location 2>/dev/null | head -n 1 | grep "404" >> /dev/null 2>&1
+    curl -I $location 2>/dev/null | head -n 1 | grep "404" >>/dev/null 2>&1
     if [ "$?" = "0" ]; then
       log::error "[gvm::install] invalid version: $version"
       log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
-      exit 1
+      return 1
     fi
   else
     # 404
-    curl -I $tar_gz_url 2>/dev/null | head -n 1 | grep "404" >> /dev/null 2>&1
+    curl -I $tar_gz_url 2>/dev/null | head -n 1 | grep "404" >>/dev/null 2>&1
     if [ "$?" = "0" ]; then
       log::error "[gvm::install] invalid version: $version"
       log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
-      exit 1
+      return 1
     fi
   fi
 
@@ -106,7 +115,7 @@ gvm::internal_install_apply_local() {
   local version=$1
   if [ -z "$version" ]; then
     log::error "[gvm::internal_install_apply_local] version is required"
-    exit 1
+    return 1
   fi
 
   # add prefix v*

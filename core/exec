@@ -9,10 +9,10 @@ gvm::exec() {
     go_bin_path=$PLUGIN_GVM_VERSIONS/$version/bin
   fi
 
-  which go >> /dev/null 2>&1
+  which go >>/dev/null 2>&1
   if [ $? -eq 0 ]; then
     log::error "[gvm::exec] found go, you should use 'zgvm use' instead of 'zgvm exec'"
-    exit 1
+    return 1
 
     # @TODO like python virtualenv wrapper
     # local active=$PLUGIN_GVM_VERSIONS/$version/active
@@ -20,7 +20,7 @@ gvm::exec() {
     #   local cleaned_path=$(echo $PATH | sed "s|$PLUGIN_GVM_GO_HOME||g")
     #   echo "export PATH=$go_bin_path:$cleaned_path" | sudo tee $active > /dev/null 2>&1
     # fi
-    
+
     # source $active
     # exit 0
   fi

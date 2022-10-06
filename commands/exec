@@ -12,6 +12,10 @@ core() {
   fi
 
   gvm::exec $@
+  if [ "$?" != "0" ]; then
+    log::error "failed to exec: $@"
+    exit 1
+  fi
 }
 
 run() {

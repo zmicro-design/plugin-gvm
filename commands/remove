@@ -29,6 +29,10 @@ core() {
   fi
 
   gvm::remove $version
+  if [ "$?" != "0" ]; then
+    log::error "failed to remove $version"
+    exit 1
+  fi
 
   log::success "remove ${version} success"
 

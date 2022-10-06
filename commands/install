@@ -21,6 +21,11 @@ core() {
 
   log::info "installing $version"
   gvm::install $version
+  if [ "$?" != "0" ]; then
+    log::error "failed to install $version"
+    exit 1
+  fi
+
   log::success "install ${version} success"
 
   if [ -f "$HOME/.zshrc" ]; then
