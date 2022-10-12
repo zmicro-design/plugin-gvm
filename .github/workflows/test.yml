@@ -61,16 +61,16 @@ jobs:
         with:
           fetch-depth: "0"
 
-      - name: Install GVM
+      - name: Install
         run: ./install
 
-      - name: Install Go (Stable/LTS)
-        run: zmicro gvm lts
+      - name: Install (Stable/LTS)
+        run: zmicro nvm lts
 
       - name: Run Test Cases
         run: zmicro test core
 
-      - name: Show Go Version
+      - name: Show Version
         run: |
-          export PATH=$(zmicro gvm bin):$PATH
+          export PATH=$(zmicro nvm bin):$PATH
           go version
