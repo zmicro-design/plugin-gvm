@@ -65,12 +65,12 @@ jobs:
         run: ./install
 
       - name: Install (Stable/LTS)
-        run: zmicro nvm lts
+        run: zmicro gvm lts
 
       - name: Run Test Cases
         run: zmicro test core
 
       - name: Show Version
         run: |
-          export PATH=$(zmicro nvm bin):$PATH
+          export PATH=$(zmicro gvm bin):$PATH
           go version

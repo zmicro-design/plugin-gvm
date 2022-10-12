@@ -60,6 +60,6 @@ jobs:
 
       - name: Show Version
         run: |
-          zmicro nvm -v
+          zmicro gvm -v
           export PATH=$(zmicro bin path):$PATH
-          znvm -v
+          zgvm -v
