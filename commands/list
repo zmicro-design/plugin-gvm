@@ -2,7 +2,7 @@
 
 help() {
   echo "Usage:"
-  echo "  zgvm list"
+  echo "  gvm list"
 }
 
 core() {

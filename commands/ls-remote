@@ -2,7 +2,7 @@
 
 help() {
   echo "Usage:"
-  echo "  zgvm ls-remote"
+  echo "  gvm ls-remote"
 }
 
 core() {

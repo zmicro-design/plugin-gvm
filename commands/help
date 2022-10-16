@@ -11,24 +11,24 @@ description() {
 
 usage() {
   echo "Usage:"
-  echo "  zgvm install <version>   - Install Go version"
-  echo "  zgvm use <version>       - Use Go version"
-  echo "  zgvm remove <version>    - Remove Go version"
-  echo "  zgvm ls                  - List the Go versions installed"
-  echo "  zgvm ls-remote           - List all Go versions from remote"
-  echo "  zgvm current             - Show current Go version"
-  echo "  zgvm exec                - Enter new shell with go version for tmp"
-  echo "  zgvm help                - Show help"
+  echo "  gvm install <version>   - Install Go version"
+  echo "  gvm use <version>       - Use Go version"
+  echo "  gvm remove <version>    - Remove Go version"
+  echo "  gvm ls                  - List the Go versions installed"
+  echo "  gvm ls-remote           - List all Go versions from remote"
+  echo "  gvm current             - Show current Go version"
+  echo "  gvm exec                - Enter new shell with go version for tmp"
+  echo "  gvm help                - Show help"
 }
 
 example() {
   echo "Example:"
-  echo "  zgvm install $PLUGIN_GVM_GO_DEFAULT_VERSION"
-  echo "  zgvm use $PLUGIN_GVM_GO_DEFAULT_VERSION"
-  echo "  zgvm remove $PLUGIN_GVM_GO_DEFAULT_VERSION"
-  echo "  zgvm ls"
-  echo "  zgvm ls-remote"
-  echo "  zgvm current"
+  echo "  gvm install $PLUGIN_GVM_GO_DEFAULT_VERSION"
+  echo "  gvm use $PLUGIN_GVM_GO_DEFAULT_VERSION"
+  echo "  gvm remove $PLUGIN_GVM_GO_DEFAULT_VERSION"
+  echo "  gvm ls"
+  echo "  gvm ls-remote"
+  echo "  gvm current"
 }
 
 core() {

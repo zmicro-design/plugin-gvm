@@ -11,7 +11,7 @@ gvm::exec() {
 
   which go >>/dev/null 2>&1
   if [ $? -eq 0 ]; then
-    log::error "[gvm::exec] found go, you should use 'zgvm use' instead of 'zgvm exec'"
+    log::error "[gvm::exec] found go, you should use 'gvm use' instead of 'gvm exec'"
     return 1
 
     # @TODO like python virtualenv wrapper
