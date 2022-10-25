@@ -37,9 +37,17 @@ gvm::install() {
   # if no current, set current
   if [ "$(gvm::current)" == "" ]; then
     gvm::use $version
+    if [ "$?" != "0" ]; then
+      log::error "[$(timestamp)] failed to use node ${version}."
+      return 1
+    fi
   else
     # @TODO fix env apply
     gvm::env
+    if [ "$?" != "0" ]; then
+      log::error "[$(timestamp)] failed to apply node env."
+      return 1
+    fi
   fi
 }
 
@@ -82,25 +90,22 @@ gvm::internal_install_download() {
   fi
 
   # 302 redirect
-  curl -I $tar_gz_url 2>/dev/null | head -n 1 | grep "302" >>/dev/null 2>&1
-  if [ "$?" = "0" ]; then
-    local location=$(curl -I $tar_gz_url 2>/dev/null | grep location | awk '{print $2}')
+  if [ "$(net::status_code $tar_gz_url)" = "302" ]; then
+    local location=$(os::curl -I $tar_gz_url 2>/dev/null | grep location | awk '{print $2}')
 
     # fix location
     # stackoverflow: https://stackoverflow.com/questions/70660633/curl-3-url-using-bad-illegal-format-or-missing-url-in-bash-windows
     location=$(echo $location | sed 's/\r//g')
 
     # 404
-    curl -I $location 2>/dev/null | head -n 1 | grep "404" >>/dev/null 2>&1
-    if [ "$?" = "0" ]; then
+    if [ "$(net::is_not_found $location)" = "true" ]; then
       log::error "[gvm::install] invalid version: $version"
       log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
       return 1
     fi
   else
     # 404
-    curl -I $tar_gz_url 2>/dev/null | head -n 1 | grep "404" >>/dev/null 2>&1
-    if [ "$?" = "0" ]; then
+    if [ "$(net::is_not_found $tar_gz_url)" = "true" ]; then
       log::error "[gvm::install] invalid version: $version"
       log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
       return 1
@@ -108,7 +113,8 @@ gvm::internal_install_download() {
   fi
 
   # download
-  wget -c $tar_gz_url -O $PLUGIN_GVM_GO_DOWNLOAD_TMP
+  # wget -c $tar_gz_url -O $PLUGIN_GVM_GO_DOWNLOAD_TMP
+  os::curl --progress-bar -fSL $tar_gz_url -o $PLUGIN_GVM_GO_DOWNLOAD_TMP
 }
 
 gvm::internal_install_apply_local() {

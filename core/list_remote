@@ -1,7 +1,7 @@
 #!/bin/bash
 
 gvm::list_remote() {
-  local versions=$(git ls-remote -t https://github.com/golang/go | awk -F/ '{ print $NF }' | grep go | awk -F go '{print $2}')
+  local versions=$(os::git ls-remote -t https://github.com/golang/go | awk -F/ '{ print $NF }' | grep go | awk -F go '{print $2}')
   # local versions=""
   # for version in ${_versions[@]}; do
   #   versions="v$version $versions"
