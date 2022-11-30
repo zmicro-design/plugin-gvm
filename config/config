@@ -16,6 +16,8 @@ export PLUGIN_GVM_GO_DOWNLOAD_TMP=/tmp/go.tar.gz
 export PLUGIN_GVM_GO_SOURCE_GOOGLE=https://golang.google.cn/dl
 export PLUGIN_GVM_GO_SOURCE_QINIU=https://gomirrors.org/dl/go
 
+export PLUGIN_GVM_GO_SOURCE=${PLUGIN_GVM_GO_SOURCE:-$PLUGIN_GVM_GO_SOURCE_GOOGLE}
+
 if [ ! -d "$PLUGIN_GVM_VERSIONS" ]; then
   mkdir -p $PLUGIN_GVM_VERSIONS
 fi
