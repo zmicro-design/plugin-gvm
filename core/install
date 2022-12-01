@@ -114,7 +114,8 @@ gvm::internal_install_download() {
 
   # download
   # wget -c $tar_gz_url -O $PLUGIN_GVM_GO_DOWNLOAD_TMP
-  os::curl --progress-bar -fSL $tar_gz_url -o $PLUGIN_GVM_GO_DOWNLOAD_TMP
+  # os::curl --progress-bar -fSL $tar_gz_url -o $PLUGIN_GVM_GO_DOWNLOAD_TMP
+  os::download $PLUGIN_GVM_GO_DOWNLOAD_TMP $tar_gz_url
 }
 
 gvm::internal_install_apply_local() {

@@ -47,7 +47,7 @@ vm::sudo_ensure() {
 # vm::ensure ensures that the necessary tools are installed and sudo.
 vm::ensure() {
   vm::sudo_ensure
-  vm::tool_ensure wget
+  # vm::tool_ensure wget
   vm::tool_ensure curl
 }
 
