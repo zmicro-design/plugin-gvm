@@ -21,6 +21,7 @@ gvm::install() {
   # 2. get download url
   local url=$(gvm::internal_install_get_download_url $version)
   # 3. download
+  log::info "[$(timestamp)] download version($version) from $url ..."
   gvm::internal_install_download $version $url
   if [ "$?" != "0" ]; then
     log::error "[gvm::install] failed to install (version: $version, url: $url)"
@@ -28,6 +29,7 @@ gvm::install() {
   fi
 
   # 4. apply local
+  log::info "[$(timestamp)] apply local env for $version ..."
   gvm::internal_install_apply_local $version
   if [ "$?" != "0" ]; then
     log::error "[gvm::install] failed to apply env(version: $version, url: $url)"
