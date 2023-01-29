@@ -36,7 +36,7 @@ gvm::env() {
 
   local envs=$(
     cat <<-END
-[ -s "$ZMICRO_HOME/plugins/gvm/source" ] && \. $ZMICRO_HOME/plugins/gvm/source
+[ -s "\$ZMICRO_HOME/plugins/gvm/source" ] && \. \$ZMICRO_HOME/plugins/gvm/source
 END
   )
   config::profile "# ZMICRO_GVM" "$envs"
