@@ -8,6 +8,14 @@ gvm::use() {
     return 1
   fi
 
+  if [ "$version" = "default" ]; then
+    version=$PLUGIN_GVM_GO_DEFAULT_VERSION
+  elif [ "$version" = "lts" ]; then
+    version=$PLUGIN_GVM_GO_LTS_VERSION
+  elif [ "$version" = "latest" ]; then
+    version=$PLUGIN_GVM_GO_DEFAULT_VERSION
+  fi
+
   # smart detect
   version=$(vm::version_ensure_prefix_v $version)
 
