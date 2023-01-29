@@ -1,0 +1,32 @@
+#!/bin/bash
+
+export ZMICRO_DATA_PARENT="${ZMICRO_DATA_PARENT}"
+if [ "$(uname -s)" = "Darwin" ]; then
+  export ZMICRO_DATA_PARENT=/opt
+fi
+
+export PLUGIN_XVM_DATA=${ZMICRO_DATA_PARENT}/data/plugins/gvm
+export PLUGIN_XVM_VERSIONS=${PLUGIN_XVM_DATA}/versions
+export PLUGIN_XVM_VERSION_CURRENT=${PLUGIN_XVM_DATA}/current
+
+version=""
+if [ -f "$PWD/.gvmrc" ]; then
+  version="$(cat $PWD/.gvmrc)"
+else
+  if [ ! -f "$PLUGIN_XVM_VERSION_CURRENT" ]; then
+    exit 1
+  fi
+  version="$(cat $PLUGIN_XVM_VERSION_CURRENT)"
+fi
+
+version=$(ls $PLUGIN_XVM_VERSIONS | grep $version | sort -rV | head -n 1)
+
+# gvm
+export PLUGIN_GVM_GO_CURRENT_VERSION=$version
+# go
+export GOHOME=$PLUGIN_XVM_VERSIONS/$version
+export GOPATH=$HOME/.go
+export PATH=$GOPATH/bin:$GOHOME/bin:$PATH
+
+# usage:
+# [ -s "$ZMICRO_HOME/plugins/gvm/source" ] && \. $ZMICRO_HOME/plugins/gvm/source

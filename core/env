@@ -2,7 +2,7 @@
 
 # gvm::env applys the env for go
 gvm::env() {
-  echo $PATH | grep $PLUGIN_GVM_GO_BIN >> /dev/null 2>&1
+  echo $PATH | grep $PLUGIN_GVM_GO_BIN >>/dev/null 2>&1
   if [ $? -ne 0 ]; then
     export PATH=$PATH:$PLUGIN_GVM_GO_BIN
   fi
@@ -14,32 +14,32 @@ gvm::env() {
   # Donot set GOBIN, which may cause go install permission into $GOBIN
   # go env -w GOBIN=$GOBIN
 
-  # Write to SHELL
-  if [ -f $HOME/.bashrc ]; then
-    cat $HOME/.bashrc | grep GOBIN >> /dev/null 2>&1
-    if [ "$?" != "0" ]; then
-      cat << EOF >> $HOME/.bashrc
-
-# GOBIN
-export GOHOME=${PLUGIN_GVM_GO_HOME}
-export GOPATH=${PLUGIN_GVM_GO_PATH}
-export PATH=\$GOHOME/bin:\$GOPATH/bin:\$PATH
-EOF
+  local filenames=(
+    .zshrc
+    .bashrc
+    .bash_profile
+    .profile
+  )
+  for f in ${filenames[@]}; do
+    # clean old config
+    local profile=$HOME/$f
+    if [ -f "$profile" ]; then
+      cat $profile | grep "export NODE_HOME=" >>/dev/null 2>&1
+      if [ "$?" = "0" ]; then
+        fs::remove_line_has_str "$profile" "# ZMICRO_GVM"
+        fs::remove_line_has_str "$profile" "export NODE_HOME="
+        fs::remove_line_has_str "$profile" "export NODE_USER_HOME="
+        fs::remove_line_has_str "$profile" "exportPATH=\$NODE_USER_HOME"
+      fi
     fi
-  fi
+  done
 
-  if [ -f $HOME/.zshrc ]; then
-    cat $HOME/.zshrc | grep GOBIN >> /dev/null 2>&1
-    if [ "$?" != "0" ]; then
-      cat << EOF >> $HOME/.zshrc
-
-# GOBIN
-export GOHOME=${PLUGIN_GVM_GO_HOME}
-export GOPATH=${PLUGIN_GVM_GO_PATH}
-export PATH=\$GOHOME/bin:\$GOPATH/bin:\$PATH
-EOF
-    fi
-  fi
+  local envs=$(
+    cat <<-END
+[ -s "$ZMICRO_HOME/plugins/gvm/source" ] && \. $ZMICRO_HOME/plugins/gvm/source
+END
+  )
+  config::profile "# ZMICRO_GVM" "$envs"
 }
 
 export -f gvm::env

@@ -2,12 +2,7 @@
 
 # gvm::current gets the current version of Go
 gvm::current() {
-  if [ ! -f "${PLUGIN_GVM_VERSION_CURRENT}" ]; then
-    echo ""
-    return
-  fi
-
-  echo $(cat $PLUGIN_GVM_VERSION_CURRENT)
+  echo $PLUGIN_GVM_GO_CURRENT_VERSION
 }
 
 export -f gvm::current

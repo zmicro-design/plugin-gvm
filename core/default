@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# gvm::default gets the default version of Node.js
+gvm::default() {
+  if [ ! -f "${PLUGIN_GVM_VERSION_CURRENT}" ]; then
+    echo "$PLUGIN_GVM_GO_DEFAULT_VERSION"
+    return
+  fi
+
+  echo $(cat $PLUGIN_GVM_VERSION_CURRENT)
+}
+
+export -f gvm::default
