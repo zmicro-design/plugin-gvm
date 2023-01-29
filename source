@@ -33,7 +33,8 @@ fi
 export PLUGIN_GVM_GO_CURRENT_VERSION=$version
 
 # go
-export GOHOME=$PLUGIN_XVM_VERSIONS/$version
+export GO_HOME=$PLUGIN_XVM_VERSIONS/$version
+export GOHOME=$GO_HOME
 export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:$GOHOME/bin:$PATH
 

@@ -35,11 +35,13 @@ gvm::use() {
 
   if [ -d $PLUGIN_GVM_GO_HOME ]; then
     # if not a link
-    file $PLUGIN_GVM_GO_HOME | grep symbolic >>/dev/null 2>&1
-    if [ "$?" != "0" ]; then
-      sudo rm -rf $PLUGIN_GVM_GO_HOME
-    else
-      sudo rm -f $PLUGIN_GVM_GO_HOME
+    if [ "$(os::has_command file)" = "true" ]; then
+      file $PLUGIN_GVM_GO_HOME | grep symbolic >>/dev/null 2>&1
+      if [ "$?" != "0" ]; then
+        sudo rm -rf $PLUGIN_GVM_GO_HOME
+      else
+        sudo rm -f $PLUGIN_GVM_GO_HOME
+      fi
     fi
   fi
 
