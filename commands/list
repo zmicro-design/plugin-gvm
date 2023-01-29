@@ -15,9 +15,6 @@ core() {
   local default=$(gvm::default)
   local list=$(gvm::list $@)
 
-  echo "current: $current"
-  echo "default: $default"
-
   print() {
     local index=$1
     local name=$2
