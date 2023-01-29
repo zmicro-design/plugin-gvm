@@ -13,9 +13,9 @@ core() {
     exit 0
   fi
 
-  log::info "Use LTS Version $PLIGIN_GVM_GO_LTS_VERSION"
+  log::info "Use LTS Version $PLUGIN_GVM_GO_LTS_VERSION"
 
-  gvm::use $PLIGIN_GVM_GO_LTS_VERSION
+  gvm::use $PLUGIN_GVM_GO_LTS_VERSION
 }
 
 run() {
