@@ -14,7 +14,10 @@ gvm::use() {
   if [ ! -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
     # log::error "[gvm::use] version $version not found"
     # exit 1
+    log::info "[$(timestamp)] version(${version}) not found, installing ..."
     gvm::install $version
+
+    log::info "[$(timestamp)] use version: ${version}."
     gvm::use $version
     return
   fi
