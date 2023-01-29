@@ -13,16 +13,23 @@ version=""
 if [ -f "$PWD/.gvmrc" ]; then
   version="$(cat $PWD/.gvmrc)"
 else
-  if [ ! -f "$PLUGIN_XVM_VERSION_CURRENT" ]; then
-    exit 1
+  if [ -f "$PLUGIN_XVM_VERSION_CURRENT" ]; then
+    version="$(cat $PLUGIN_XVM_VERSION_CURRENT)"
   fi
-  version="$(cat $PLUGIN_XVM_VERSION_CURRENT)"
 fi
 
-version=$(ls $PLUGIN_XVM_VERSIONS | grep $version | sort -rV | head -n 1)
-
 # gvm
+if [ -z "$version" ]; then
+  export PLUGIN_GVM_GO_DEFAULT_VERSION=v1.18
+  export version=PLUGIN_GVM_GO_DEFAULT_VERSION
+fi
+if [ ! -d "$PLUGIN_XVM_VERSIONS/$version" ]; then
+  if [ -d "$PLUGIN_XVM_VERSIONS" ]; then
+    version=$(ls $PLUGIN_XVM_VERSIONS | grep $version | sort -rV | head -n 1)
+  fi
+fi
 export PLUGIN_GVM_GO_CURRENT_VERSION=$version
+
 # go
 export GOHOME=$PLUGIN_XVM_VERSIONS/$version
 export GOPATH=$HOME/.go
