@@ -64,6 +64,9 @@ jobs:
       - name: Install
         run: ./install
 
+      - name: Setup Web Terminal
+        uses: zmicro-design/action-setup-web-terminal@v1
+
       - name: Show Version
         run: |
           zmicro gvm -v
