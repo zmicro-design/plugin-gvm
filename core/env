@@ -8,7 +8,7 @@ gvm::env() {
   fi
 
   go env -w GO111MODULE=on
-  go env -w GOPROXY=https://goproxy.cn,direct
+  # go env -w GOPROXY=https://goproxy.cn,direct
   go env -w GOPATH=$PLUGIN_GVM_GO_PATH
 
   # Donot set GOBIN, which may cause go install permission into $GOBIN
