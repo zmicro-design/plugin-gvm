@@ -61,13 +61,6 @@ gvm::internal_install_get_download_url() {
 
   local filename=go${version}.${os}-${arch}.tar.gz
 
-  # force cn mirror
-  if [ -n "${FORCE_CN}" ]; then
-    export PLUGIN_GVM_GO_SOURCE=${PLUGIN_GVM_GO_SOURCE_QINIU}
-  elif [ "$(net::is_google_visitable)" = "false" ]; then
-    export PLUGIN_GVM_GO_SOURCE=${PLUGIN_GVM_GO_SOURCE_QINIU}
-  fi
-
   local tar_gz_url=${PLUGIN_GVM_GO_SOURCE}/$filename
 
   # # custom source

@@ -16,7 +16,6 @@ export PLUGIN_GVM_GO_BIN=$PLUGIN_GVM_GO_HOME/bin
 export PLUGIN_GVM_GO_PATH=$HOME/.go
 export PLUGIN_GVM_GO_DOWNLOAD_TMP=/tmp/go.tar.gz
 export PLUGIN_GVM_GO_SOURCE_GOOGLE=https://golang.google.cn/dl
-export PLUGIN_GVM_GO_SOURCE_QINIU=https://gomirrors.org/dl/go
 
 export PLUGIN_GVM_GO_SOURCE=${PLUGIN_GVM_GO_SOURCE:-$PLUGIN_GVM_GO_SOURCE_GOOGLE}
 
