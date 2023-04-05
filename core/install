@@ -103,14 +103,14 @@ gvm::internal_install_download() {
     if [ "$(net::is_not_found $location)" = "true" ]; then
       log::error "[gvm::install] invalid version: $version"
       log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
-      return 1
+      exit 1
     fi
   else
     # 404
     if [ "$(net::is_not_found $tar_gz_url)" = "true" ]; then
       log::error "[gvm::install] invalid version: $version"
       log::error "[gvm::install] see more version at https://golang.google.cn/dl/"
-      return 1
+      exit 1
     fi
   fi
 
