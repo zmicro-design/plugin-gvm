@@ -1,10 +1,8 @@
 #!/bin/bash
 
 help() {
-  echo "Use LTS Version"
-  echo ""
   echo "Usage:"
-  echo "  gvm lts"
+  echo "  gvm default"
 }
 
 core() {
@@ -13,9 +11,13 @@ core() {
     exit 0
   fi
 
-  log::info "Use LTS Version $PLUGIN_GVM_GO_LTS_VERSION"
+  local default=$(gvm::default)
+  if [ -z "$default" ]; then
+    echo "No version is currently set"
+    exit 0
+  fi
 
-  gvm::use $PLUGIN_GVM_GO_LTS_VERSION
+  echo "$default"
 }
 
 run() {

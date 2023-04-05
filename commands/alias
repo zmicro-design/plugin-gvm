@@ -1,0 +1,40 @@
+#!/bin/bash
+
+help() {
+  echo "Usage:"
+  echo "  gvm alias <name> <version>"
+  echo ""
+  echo "Example:"
+  echo "  gvm alias default v16"
+}
+
+core() {
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ "$1" = "" ] ; then
+    help
+    exit 0
+  fi
+
+  local name="$1"
+  local version="$2"
+
+  case $name in
+  default)
+    if [ -z "$version" ]; then
+      gvm::default
+      return 0
+    fi
+
+    gvm use $version
+    ;;
+  *)
+    log::error "[$(timestamp)] unsupport command: gvm alias $@"
+    return 1
+    ;;
+  esac
+}
+
+run() {
+  core $@
+}
+
+run $@

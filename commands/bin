@@ -11,7 +11,9 @@ core() {
     exit 0
   fi
 
-  echo $PLUGIN_GVM_GO_BIN
+  # echo $PLUGIN_GVM_GO_BIN
+  [ -s "$ZMICRO_HOME/plugins/gvm/source" ] && \. $ZMICRO_HOME/plugins/gvm/source
+  echo "$GO_HOME/bin"
 }
 
 run() {

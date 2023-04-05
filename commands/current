@@ -2,7 +2,7 @@
 
 help() {
   echo "Usage:"
-  echo "  gvm use"
+  echo "  gvm current"
 }
 
 core() {
@@ -12,12 +12,12 @@ core() {
   fi
 
   local current=$(gvm::current)
+  if [ -z "$current" ]; then
+    echo "No version is currently set"
+    exit 0
+  fi
 
-  export GOHOME=${PLUGIN_GVM_GO_HOME}
-  export GOPATH=${PLUGIN_GVM_GO_PATH}
-  export PATH=$GOHOME/bin:$GOPATH/bin:$PATH
-
-  echo "$current ($(go version))"
+  echo "$current"
 }
 
 run() {
