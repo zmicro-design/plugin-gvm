@@ -19,7 +19,10 @@ gvm::use() {
   # smart detect
   version=$(vm::version_ensure_prefix_v $version)
 
-  if [ ! -d "$PLUGIN_GVM_VERSIONS/$version" ]; then
+  if [ "$(gvm::has_version_local $version)" = "true" ]; then
+    local local_version=$(gvm::get_version_local $version)
+    version=$local_version
+  else
     # log::error "[gvm::use] version $version not found"
     # exit 1
     log::info "[$(timestamp)] version(${version}) not found, installing ..."

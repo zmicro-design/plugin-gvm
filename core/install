@@ -18,6 +18,21 @@ gvm::install() {
     return
   fi
 
+  # search local
+  if [ "$(gvm::has_version_local $version)" = "true" ]; then
+    log::info "you have installed version: $(color::green $version)"
+    exit 0
+  fi
+
+   # infer latest version
+  local latest_version=$(vm::get_latest_version $version)
+  if [ "$latest_version" = "" ]; then
+    log::error "[$(timestamp)] can not find version: $(color::red $version)"
+    exit 1
+  fi
+  
+  version=$latest_version
+
   # 2. get download url
   local url=$(gvm::internal_install_get_download_url $version)
   # 3. download
@@ -150,3 +165,4 @@ export -f gvm::install
 export -f gvm::internal_install_get_download_url
 export -f gvm::internal_install_download
 export -f gvm::internal_install_apply_local
+

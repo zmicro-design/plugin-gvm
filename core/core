@@ -98,6 +98,17 @@ gvm::has() {
   fi
 }
 
+# get latest version according to the version provided
+vm::get_latest_version() {
+  local version=$1
+  if [ -z "$version" ]; then
+    log::error "[vm::get_latest_version] version is required"
+    exit 1
+  fi
+
+  gvm::list_remote | grep $version | sort -V | tail -n 1
+}
+
 export -f vm::os
 export -f vm::arch
 
@@ -111,3 +122,5 @@ export -f vm::version_parse
 export -f vm::version_ensure_prefix_v
 
 export -f gvm::has
+
+export -f vm::get_latest_version
