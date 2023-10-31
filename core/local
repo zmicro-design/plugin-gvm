@@ -1,0 +1,29 @@
+#!/bin/bash
+
+gvm::has_version_local() {
+  local version=$1
+  if [ -z "$version" ]; then
+    log::error "[gvm::has] version is required"
+    exit 1
+  fi
+
+  gvm::list | grep $version >> /dev/null 2>&1
+  if [ "$?" = "0" ]; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
+
+gvm::get_version_local() {
+  local version=$1
+  if [ -z "$version" ]; then
+    log::error "[gvm::has] version is required"
+    exit 1
+  fi
+
+  gvm::list | grep $version | sort -V | tail -n 1
+}
+
+export -f gvm::has_version_local
+export -f gvm::get_version_local

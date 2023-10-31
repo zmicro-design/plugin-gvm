@@ -22,7 +22,7 @@ core() {
 
   gvm::use $version
 
-  echo "current: $(gvm::current) ($(go version))"
+  echo "current: $(gvm::current)"
 }
 
 run() {
