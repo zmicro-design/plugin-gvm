@@ -2,7 +2,11 @@
 
 help() {
   echo "Usage:"
-  echo "  gvm exec"
+  echo "  gvm exec <version> <command> [args]"
+  echo ""
+  echo "Example:"
+  echo "  gvm exec v1.20 go version"
+  echo "  gvm exec v1.18 go build"
 }
 
 core() {

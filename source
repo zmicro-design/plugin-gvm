@@ -30,6 +30,11 @@ if [ ! -d "$PLUGIN_XVM_VERSIONS/$version" ]; then
     fi
   fi
 fi
+
+if [ -n "$GVM_GO_VERSION" ]; then
+  version=$GVM_GO_VERSION
+fi
+
 export PLUGIN_GVM_GO_CURRENT_VERSION=$version
 
 # go
