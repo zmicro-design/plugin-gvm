@@ -29,11 +29,11 @@ core() {
   log::success "install ${version} success"
 
   if [ -f "$HOME/.zshrc" ]; then
-    log::success "load go by reloading env with $(color::success "source $HOME/.zshrc")"
+    log::success "load go by reloading env with $(color::success "source $HOME/.zshrc") Or open new terminal"
   elif [ -f "$HOME/.bashrc" ]; then
-    log::success "load go by reloading env with $(color::success "source $HOME/.bashrc")"
+    log::success "load go by reloading env with $(color::success "source $HOME/.bashrc") Or open new terminal"
   else
-    log::success "restart your shell to load go"
+    log::success "Open new terminal to load go"
   fi
 }
 
