@@ -22,6 +22,15 @@ curl -o- https://raw.githubusercontent.com/zmicro-design/plugin-gvm/master/insta
 wget -qO- https://raw.githubusercontent.com/zmicro-design/plugin-gvm/master/install | bash
 ```
 
+## Features
+* [x] Switch different versions
+* [x] List all local installed versions
+* [x] List all remote versions
+* [x] Show current version
+* [x] Remove unused versions
+* [x] Local tmp go version with `.gvmrc`
+* [x] Exec command with specify version
+
 ## Usage
 
 ```markdown
