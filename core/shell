@@ -1,25 +1,19 @@
 #!/bin/bash
 
-# gvm::exec enters a new shell with go
-gvm::exec() {
+# gvm::shell enters a new shell with go
+gvm::shell() {
   local go_bin_path=$PLUGIN_GVM_GO_BIN
   local version=$1
   local command=${@:2}
-
   if [ -z "$version" ]; then
     log::error "version is required"
-    return 1
-  fi
-
-  if [ -z "$command" ]; then
-    log::error "command is required"
     return 1
   fi
 
   export GVM_GO_VERSION=$version
   source $ZMICRO_HOME/plugins/gvm/source
 
-  $command
+  exec $SHELL
 }
 
-export -f gvm::exec
+export -f gvm::shell

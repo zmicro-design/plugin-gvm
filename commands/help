@@ -17,7 +17,8 @@ usage() {
   echo "  gvm ls                  - List the Go versions installed"
   echo "  gvm ls-remote           - List all Go versions from remote"
   echo "  gvm current             - Show current Go version"
-  echo "  gvm exec                - Enter new shell with go version for tmp"
+  echo "  gvm exec                - Exec command with Go version"
+  echo "  gvm shell               - Enter new shell with Go version"
   echo "  gvm help                - Show help"
 }
 
@@ -29,6 +30,8 @@ example() {
   echo "  gvm ls"
   echo "  gvm ls-remote"
   echo "  gvm current"
+  echo "  gvm exec v1.18 go version"
+  echo "  gvm shell v1.18"
 }
 
 core() {
