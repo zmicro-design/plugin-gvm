@@ -4,7 +4,7 @@
 gvm::env() {
   echo $PATH | grep $PLUGIN_GVM_GO_BIN >>/dev/null 2>&1
   if [ $? -ne 0 ]; then
-    export PATH=$PATH:$PLUGIN_GVM_GO_BIN
+    export PATH=$PLUGIN_GVM_GO_BIN:$PATH
   fi
 
   go env -w GO111MODULE=on
