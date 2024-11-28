@@ -4,6 +4,10 @@
 gvm::current() {
   [ -s "$ZMICRO_HOME/plugins/gvm/source" ] && \. $ZMICRO_HOME/plugins/gvm/source
 
+  if [ "$(os::has_command go)" != "true" ]; then
+    return
+  fi
+
   echo "$PLUGIN_GVM_GO_CURRENT_VERSION ($(go version))"
 }
 
