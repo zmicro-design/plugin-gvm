@@ -5,40 +5,40 @@ if [ "$(uname -s)" = "Darwin" ]; then
   export ZMICRO_DATA_PARENT=/opt
 fi
 
-export PLUGIN_XVM_DATA=${ZMICRO_DATA_PARENT}/data/plugins/gvm
-export PLUGIN_XVM_VERSIONS=${PLUGIN_XVM_DATA}/versions
-export PLUGIN_XVM_VERSION_CURRENT=${PLUGIN_XVM_DATA}/current
+export PLUGIN_GVM_DATA=${ZMICRO_DATA_PARENT}/data/plugins/gvm
+export PLUGIN_GVM_VERSIONS=${PLUGIN_GVM_DATA}/versions
+export PLUGIN_GVM_VERSION_CURRENT=${PLUGIN_GVM_DATA}/current
 
-version=""
+export PLUGIN_GVM_SOURCE_VERSION=""
 if [ -f "$PWD/.gvmrc" ]; then
-  version="$(cat $PWD/.gvmrc)"
+  PLUGIN_GVM_SOURCE_VERSION="$(cat $PWD/.gvmrc)"
 else
-  if [ -f "$PLUGIN_XVM_VERSION_CURRENT" ]; then
-    version="$(cat $PLUGIN_XVM_VERSION_CURRENT)"
+  if [ -f "$PLUGIN_GVM_VERSION_CURRENT" ]; then
+    PLUGIN_GVM_SOURCE_VERSION="$(cat $PLUGIN_GVM_VERSION_CURRENT)"
   fi
 fi
 
 # gvm
-if [ -z "$version" ]; then
+if [ -z "$PLUGIN_GVM_SOURCE_VERSION" ]; then
   export PLUGIN_GVM_GO_DEFAULT_VERSION=v1.18
-  export version=PLUGIN_GVM_GO_DEFAULT_VERSION
+  PLUGIN_GVM_SOURCE_VERSION=PLUGIN_GVM_GO_DEFAULT_VERSION
 fi
-if [ ! -d "$PLUGIN_XVM_VERSIONS/$version" ]; then
-  if [ -d "$PLUGIN_XVM_VERSIONS" ]; then
-    if [ -n "$(ls $PLUGIN_XVM_VERSIONS)" ]; then
-      version=$(ls $PLUGIN_XVM_VERSIONS | grep $version | sort -rV | head -n 1)
+if [ ! -d "$PLUGIN_GVM_VERSIONS/$PLUGIN_GVM_SOURCE_VERSION" ]; then
+  if [ -d "$PLUGIN_GVM_VERSIONS" ]; then
+    if [ -n "$(ls $PLUGIN_GVM_VERSIONS)" ]; then
+      PLUGIN_GVM_SOURCE_VERSION=$(ls $PLUGIN_GVM_VERSIONS | grep $PLUGIN_GVM_SOURCE_VERSION | sort -rV | head -n 1)
     fi
   fi
 fi
 
 if [ -n "$GVM_GO_VERSION" ]; then
-  version=$GVM_GO_VERSION
+  PLUGIN_GVM_SOURCE_VERSION=$GVM_GO_VERSION
 fi
 
-export PLUGIN_GVM_GO_CURRENT_VERSION=$version
+export PLUGIN_GVM_GO_CURRENT_VERSION=$PLUGIN_GVM_SOURCE_VERSION
 
 # go
-export GO_HOME=$PLUGIN_XVM_VERSIONS/$version
+export GO_HOME=$PLUGIN_GVM_VERSIONS/$PLUGIN_GVM_SOURCE_VERSION
 export GOHOME=$GO_HOME
 export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:$GOHOME/bin:$PATH
