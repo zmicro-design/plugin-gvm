@@ -19,7 +19,7 @@ gvm::remove() {
 
   sudo rm -rf $PLUGIN_GVM_VERSIONS/$version
 
-  if [ "$(gvm::current)" == "$version" ]; then
+  if [ "$(gvm::current)" = "$version" ]; then
     local new_version=$(gvm::list | head -n 1)
     if [ -n "$new_version" ]; then
       gvm::use $new_version

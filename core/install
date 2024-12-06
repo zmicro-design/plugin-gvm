@@ -52,7 +52,7 @@ gvm::install() {
   fi
 
   # if no current, set current
-  if [ "$(gvm::current)" == "" ]; then
+  if [ "$(gvm::current)" = "" ]; then
     gvm::use $version
     if [ "$?" != "0" ]; then
       log::error "[$(timestamp)] failed to use node ${version}."
