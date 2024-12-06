@@ -51,6 +51,9 @@ gvm::install() {
     return 1
   fi
 
+  echo "install => version: #$version#"
+  echo "install => gvm::current: #$(gvm::current)#"
+
   # if no current, set current
   if [ "$(gvm::current)" = "" ]; then
     gvm::use $version

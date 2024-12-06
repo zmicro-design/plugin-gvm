@@ -33,6 +33,8 @@ gvm::use() {
     return
   fi
 
+  log::info "[$(timestamp)] use version: ${version} ..."
+
   # @TODO force sudo
   sudo ls >>/dev/null 2>&1
 
@@ -52,6 +54,7 @@ gvm::use() {
     sudo mkdir -p /usr/local/bin
   fi
 
+  log::info "[$(timestamp)] create link for version($version) to $PLUGIN_GVM_GO_HOME ..."
   sudo ln -sf $PLUGIN_GVM_VERSIONS/$version $PLUGIN_GVM_GO_HOME
   sudo ln -sf $PLUGIN_GVM_GO_HOME/bin/go /usr/local/bin/go
   echo $version >$PLUGIN_GVM_VERSION_CURRENT
