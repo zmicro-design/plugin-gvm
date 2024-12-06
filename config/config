@@ -23,6 +23,10 @@ if [ -n "$GO_SOURCE" ]; then
   PLUGIN_GVM_GO_SOURCE=$GO_SOURCE
 fi
 
+if [ -f "$PLUGIN_GVM_VERSION_CURRENT" ]; then
+  export PLUGIN_GVM_GO_CURRENT_VERSION=$(cat $PLUGIN_GVM_VERSION_CURRENT)
+fi
+
 if [ ! -d "$PLUGIN_GVM_VERSIONS" ]; then
   mkdir -p $PLUGIN_GVM_VERSIONS
 fi
