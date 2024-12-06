@@ -12,8 +12,10 @@ gvm::env() {
   echo "PATH: $PATH"
   echo "which go: $(which go)"
 
-  ls /usr/local/go
-  ls /usr/local/go/bin
+  ls -al /usr/local/go
+  ls -al /usr/local/go/bin
+
+  go version
 
   go env -w GO111MODULE=on
   # go env -w GOPROXY=https://goproxy.cn,direct
