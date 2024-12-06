@@ -44,15 +44,12 @@ gvm::install() {
   fi
 
   # 4. apply local
-  log::info "[$(timestamp)] apply local env for $version ..."
+  log::info "[$(timestamp)] install version($version) ..."
   gvm::internal_install_apply_local $version
   if [ "$?" != "0" ]; then
     log::error "[gvm::install] failed to apply env(version: $version, url: $url)"
     return 1
   fi
-
-  echo "install => version: #$version#"
-  echo "install => gvm::current: #$(gvm::current)#"
 
   # if no current, set current
   if [ "$(gvm::current)" = "" ]; then

@@ -13,7 +13,7 @@ function test_gvm::install() {
 
   local expected="$HOME/.go"
   # local received=$(go env get GOPATH)
-  local received=$(go env | grep GOPATH | awk -F '"' '{print $2}')
+  local received=$(go env GOPATH)
 
   testing::expect \
     "${FUNCNAME[0]} GOPATH" \

@@ -8,14 +8,14 @@ gvm::env() {
   # fi
   export PATH=$PLUGIN_GVM_GO_BIN:$PATH
 
-  echo "PLUGIN_GVM_GO_BIN: $PLUGIN_GVM_GO_BIN"
-  echo "PATH: $PATH"
-  echo "which go: $(which go)"
+  # echo "PLUGIN_GVM_GO_BIN: $PLUGIN_GVM_GO_BIN"
+  # echo "PATH: $PATH"
+  # echo "which go: $(which go)"
 
-  ls -al /usr/local/go
-  ls -al /usr/local/go/bin
+  # ls -al /usr/local/go
+  # ls -al /usr/local/go/bin
 
-  go version
+  # go version
 
   go env -w GO111MODULE=on
   # go env -w GOPROXY=https://goproxy.cn,direct
